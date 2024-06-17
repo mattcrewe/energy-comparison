@@ -51,6 +51,7 @@ export default function MyReviews({ reviews, refresh }: MyReviewsProps) {
                   key={index}
                   review={review}
                   modifyReview={modifyReview}
+                  refreshReviews={refresh}
                 />
               );
             })}

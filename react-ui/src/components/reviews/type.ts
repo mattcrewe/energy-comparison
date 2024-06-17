@@ -1,6 +1,7 @@
 export interface SupplierReviewProps {
-  review?: Review;
+  review: Review;
   modifyReview: (param: Review) => void;
+  refreshReviews: () => void;
 }
 
 export interface Review {

@@ -1,8 +1,10 @@
 import "./index.css";
-import Dashboard from "./pages/dashboard/dashboard";
-import Login from "./pages/auth";
-import { Route, Routes, Navigate, Outlet, Redirect } from "react-router-dom";
+import { Route, Routes, Navigate, Outlet } from "react-router-dom";
 import { createContext, useEffect, useState } from "react";
+
+import Login from "./pages/auth";
+import Dashboard from "./pages/dashboard/dashboard";
+import Error404Page from "./pages/404";
 
 interface AuthContextType {
   auth: boolean;
@@ -47,6 +49,7 @@ function App() {
         <Route element={<PrivateRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
         </Route>
+        <Route path="*" element={<Error404Page />} />
       </Routes>
     </AuthContext.Provider>
   );

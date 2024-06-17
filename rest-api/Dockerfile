@@ -1,0 +1,23 @@
+FROM python:3.11-alpine
+
+ENV LANG C.UTF-8 \
+    LC_ALL C.UTF-8 \
+    PYTHONDONTWRITEBYTECODE 1 \
+    PYTHONFAULTHANDLER=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONHASHSEED=random
+
+RUN apk add --no-cache gcc musl-dev libffi-dev
+
+RUN pip install --upgrade pip
+RUN pip install poetry
+
+COPY . /app
+
+WORKDIR /app
+COPY poetry.lock pyproject.toml /app/
+RUN poetry lock --no-update
+RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi
+
+EXPOSE 80
+ENTRYPOINT ["poetry", "run", "prod"]

@@ -1,0 +1,54 @@
+name: 'eptech-dev'
+services:
+  nginx:
+    image: 'nginx:mainline-alpine'
+    volumes:
+      - type: 'bind'
+        source: './nginx/nginx-dev.conf'
+        target: '/etc/nginx/conf.d/nginx.conf'
+    ports:
+      - '127.0.0.1:7000:7000'
+    restart: 'unless-stopped'
+
+  react-ui:
+    build:
+      context: './react-ui'
+      dockerfile: 'Dockerfile.dev'
+    volumes:
+      - type: 'bind'
+        source: './react-ui/src'
+        target: '/app/src'
+    restart: 'unless-stopped'
+    tty: true
+
+  rest-api:
+    build:
+      context: './rest-api'
+      dockerfile: 'Dockerfile.dev'
+    environment:
+      postgres__host: 'db'
+      postgres__db: '${POSTGRES_DB}'
+      postgres__username: '${POSTGRES_USER}'
+      postgres__password: '${POSTGRES_PASSWORD}'
+    volumes:
+      - type: 'bind'
+        source: './rest-api'
+        target: '/app'
+    restart: 'unless-stopped'
+    tty: true
+
+  db:
+    image: 'postgres'
+    volumes:
+      - type: 'volume'
+        source: 'postgres-data'
+        target: '/var/lib/postgresql/data'
+    environment:
+      POSTGRES_DB: '${POSTGRES_DB}'
+      POSTGRES_USER: '${POSTGRES_USER}'
+      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
+    ports:
+      - "127.0.0.1:5432:5432"
+
+volumes:
+  postgres-data:

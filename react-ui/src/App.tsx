@@ -1,7 +1,7 @@
 import "./index.css";
 import Dashboard from "./pages/dashboard/dashboard";
 import Login from "./pages/auth";
-import { Route, Routes, Navigate, Outlet } from "react-router-dom";
+import { Route, Routes, Navigate, Outlet, Redirect } from "react-router-dom";
 import { createContext, useEffect, useState } from "react";
 
 interface AuthContextType {
@@ -39,6 +39,10 @@ function App() {
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
       <Routes>
+        <Route
+          path="/"
+          element={auth ? <Outlet /> : <Navigate to="/login" />}
+        />
         <Route path="/login" element={<Login />} />
         <Route element={<PrivateRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />

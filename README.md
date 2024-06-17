@@ -2,7 +2,7 @@
 
 ## Requirements
 - docker
-- docker compose
+- docker compose v2
 
 ## Installation
 
@@ -14,14 +14,15 @@ POSTGRES_USER=EPTECH
 POSTGRES_PASSWORD=<set postgres password>
 ```
 
-Run in production mode:
+## Run in production mode:
 
 ```bash
 docker compose up
 ```
 Navigate to <localhost:8000> in your web browser to access
 
-Run in dev mode:
+## Run in dev mode:
+### Please use the production mode for demonstration purposes
 
 ```bash
 docker compose -f compose-dev.yaml up

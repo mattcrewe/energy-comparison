@@ -4,7 +4,7 @@ services:
     build:
       dockerfile: './react-ui/Dockerfile'
     ports:
-        - '127.0.0.1:8000:8000'
+      - '127.0.0.1:8000:8000'
     restart: 'unless-stopped'
 
   rest-api:
@@ -12,9 +12,9 @@ services:
       context: './rest-api'
     environment:
       postgres__host: 'db'
-      postgres__db: '${POSTGRES_DB}'
-      postgres__username: '${POSTGRES_USER}'
-      postgres__password: '${POSTGRES_PASSWORD}'
+      postgres__db: '${POSTGRES_DB?add POSTGRES_DB to .env file}'
+      postgres__username: '${POSTGRES_USER?add POSTGRES_USER to .env file}'
+      postgres__password: '${POSTGRES_PASSWORD?add POSTGRES_PASSWORD to .env file}'
     restart: 'unless-stopped'
     tty: true
 
@@ -25,9 +25,9 @@ services:
         source: 'postgres-data'
         target: '/var/lib/postgresql/data'
     environment:
-      POSTGRES_DB: '${POSTGRES_DB}'
-      POSTGRES_USER: '${POSTGRES_USER}'
-      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
+      POSTGRES_DB: '${POSTGRES_DB?add POSTGRES_DB to .env file}'
+      POSTGRES_USER: '${POSTGRES_USER?add POSTGRES_USER to .env file}'
+      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD?add POSTGRES_PASSWORD to .env file}'
     ports:
       - '127.0.0.1:5432:5432'
 

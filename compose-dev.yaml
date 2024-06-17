@@ -1,52 +1,52 @@
-name: 'eptech-dev'
+name: "eptech-dev"
 services:
   nginx:
-    image: 'nginx:mainline-alpine'
+    image: "nginx:mainline-alpine"
     volumes:
-      - type: 'bind'
-        source: './nginx/nginx-dev.conf'
-        target: '/etc/nginx/conf.d/nginx.conf'
+      - type: "bind"
+        source: "./nginx/nginx-dev.conf"
+        target: "/etc/nginx/conf.d/nginx.conf"
     ports:
-      - '127.0.0.1:7000:7000'
-    restart: 'unless-stopped'
+      - "127.0.0.1:7000:7000"
+    restart: "unless-stopped"
 
   react-ui:
     build:
-      context: './react-ui'
-      dockerfile: 'Dockerfile.dev'
+      context: "./react-ui"
+      dockerfile: "Dockerfile.dev"
     volumes:
-      - type: 'bind'
-        source: './react-ui/src'
-        target: '/app/src'
-    restart: 'unless-stopped'
+      - type: "bind"
+        source: "./react-ui/src"
+        target: "/app/src"
+    restart: "unless-stopped"
     tty: true
 
   rest-api:
     build:
-      context: './rest-api'
-      dockerfile: 'Dockerfile.dev'
+      context: "./rest-api"
+      dockerfile: "Dockerfile.dev"
     environment:
-      postgres__host: 'db'
-      postgres__db: '${POSTGRES_DB}'
-      postgres__username: '${POSTGRES_USER}'
-      postgres__password: '${POSTGRES_PASSWORD}'
+      postgres__host: "db"
+      postgres__db: "${POSTGRES_DB?add POSTGRES_DB to .env file}"
+      postgres__username: "${POSTGRES_USER?add POSTGRES_USER to .env file}"
+      postgres__password: "${POSTGRES_PASSWORD?add POSTGRES_PASSWORD to .env file}"
     volumes:
-      - type: 'bind'
-        source: './rest-api'
-        target: '/app'
-    restart: 'unless-stopped'
+      - type: "bind"
+        source: "./rest-api"
+        target: "/app"
+    restart: "unless-stopped"
     tty: true
 
   db:
-    image: 'postgres'
+    image: "postgres"
     volumes:
-      - type: 'volume'
-        source: 'postgres-data'
-        target: '/var/lib/postgresql/data'
+      - type: "volume"
+        source: "postgres-data"
+        target: "/var/lib/postgresql/data"
     environment:
-      POSTGRES_DB: '${POSTGRES_DB}'
-      POSTGRES_USER: '${POSTGRES_USER}'
-      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
+      POSTGRES_DB: "${POSTGRES_DB?add POSTGRES_DB to .env file}"
+      POSTGRES_USER: "${POSTGRES_USER?add POSTGRES_USER to .env file}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD?add POSTGRES_PASSWORD to .env file}"
     ports:
       - "127.0.0.1:5432:5432"
 

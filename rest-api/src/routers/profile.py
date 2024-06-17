@@ -84,6 +84,15 @@ def update_review(review_id: str, request: Request, updates: ReviewUpdate):
 
     return ReviewDAL().update_review(review_id, updates)
 
+@router.delete("/review/{review_id}")
+def delete_review(review_id: str, request: Request):
+    user_id = sessions.get_session(request.cookies.get("session"))
+    if not user_id:
+        raise HTTPException(
+            status_code=401, detail="User is not authenticated.")
+
+    return ReviewDAL().delete_review(review_id)
+
 
 @router.get("/recommendations", response_model=list[Rating])
 def get_recommendations(request: Request):

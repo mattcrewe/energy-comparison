@@ -15,7 +15,7 @@ const PropertyTypes = ["Flat", "Studio", "Terrace", "Semi", "House"];
 
 export default function MyProperty({ details, refresh }: MyPropertyProps) {
   const [propertyType, setPropertyType] = useState<string>();
-  const [propertySize, setPropertySize] = useState<number>(0);
+  const [propertySize, setPropertySize] = useState<number>(NaN);
   const [hasEV, setHasEV] = useState<boolean>();
   const [hasSolarPanels, setHasSolarPanels] = useState<boolean>();
 
@@ -74,7 +74,7 @@ export default function MyProperty({ details, refresh }: MyPropertyProps) {
           </Select>
         </div>
         <div className="flex flex-col items-start gap-2">
-          <Label htmlFor="property-type">Property Type</Label>
+          <Label htmlFor="property-type">Property Size</Label>
           <Input
             type="number"
             placeholder="sqr. m"

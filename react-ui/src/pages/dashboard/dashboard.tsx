@@ -1,18 +1,21 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Review } from "@/components/reviews/type";
 
+import { AuthContext } from "@/App";
+
 import { snakeToCamel } from "@/lib/utils";
 
 import MyProperty from "@/sections/property";
-// import MyReviews from "@/sections/reviews";
+import MyReviews from "@/sections/reviews";
 import MyRecommendations from "@/sections/recommendations";
 import { Recommendation } from "@/sections/recommendations/type";
-import MyReviews from "@/sections/reviews";
 import { PropertyDetails } from "@/sections/property/type";
 
 export default function Dashboard() {
+  const { auth, setAuth } = useContext(AuthContext);
+
   const [property, setProperty] = useState<PropertyDetails>({});
   const [reviews, setReviews] = useState<Review[]>([]);
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
@@ -42,6 +45,18 @@ export default function Dashboard() {
       );
   }
 
+  function logout() {
+    fetch("/api/v1/auth/logout")
+      .then((response) => response.json())
+      .then(() => {
+        setAuth(false);
+      })
+      .catch((error) => {
+        console.error("Error logging out, signing out anyway:", error);
+        setAuth(false);
+      });
+  }
+
   useEffect(() => {
     fetchProperty(), fetchReviews();
   }, []);
@@ -54,7 +69,7 @@ export default function Dashboard() {
         <div className="container mx-auto px-4 md:px-6 py-4 flex items-center justify-between">
           <span className="text-xl font-bold">Energy Comparison EPTech</span>
           <div className="flex items-center gap-4">
-            <Button onClick={() => {}}>Sign Out</Button>
+            <Button onClick={logout}>Sign Out</Button>
           </div>
         </div>
       </header>

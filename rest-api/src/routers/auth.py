@@ -69,6 +69,20 @@ def authenticate_user(request: Request, login_request: LoginRequest, response: R
         "status": "ok"
     }
 
+@router.get("/logout", response_model=dict)
+def deauthenticate_user(request: Request, response: Response):
+
+    session_token = request.cookies.get("session")
+
+    if session_token:
+        session_token = sessions.delete_session(session_token)
+
+    response.delete_cookie("session")
+
+    return {
+        "status": "ok"
+    }
+
 
 @router.post("/register", response_model=dict)
 def register_new_user(request: Request, registration_request: UserCreate, response: Response):

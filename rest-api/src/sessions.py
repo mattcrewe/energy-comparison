@@ -18,6 +18,13 @@ class SessionStore:
             return None
 
         return self.sessions.get(session_token)
+    
+    def delete_session(self, session_token: str) -> bool:
+        if not session_token:
+            return False
+        
+        del self.sessions[session_token]
+        return True
 
 # singleton instance of the session store
 sessions = SessionStore()
